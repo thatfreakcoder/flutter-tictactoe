@@ -51,11 +51,19 @@ class _HomePageState extends State<HomePage> {
         player2.add(gb.id);
       }
       gb.enabled = false;
-      checkWinner();
+      int winner = checkWinner();
+      if(winner == -1){
+        if(buttonList.every((element) => element.text != "")){
+          showDialog(
+              context: context,
+              builder: (_) => WinnerDialog("Game Tied", "Press Reset Button to start New Game", resetGame)
+          );
+        }
+      }
     });
   }
 
-  void checkWinner(){
+  int checkWinner(){
     var winner = -1;
     // Row 1
     if (player1.contains(1) && player1.contains(2) && player1.contains(3)){
@@ -127,6 +135,7 @@ class _HomePageState extends State<HomePage> {
         );
       }
     }
+    return winner;
   }
 
   void resetGame(){
